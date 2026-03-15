@@ -19,15 +19,20 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A rental platform that connect the landlord and tenants">
+  <meta property="og:title" content="pangaleo">
+  <meta property="og:description" content="A rental platform that connect the landlord and tenants">
+  <meta property="og:image" content="https://pangaleo.co.tz/assets/fulllogo.png">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:image" content="https://pangaleo.co.tz/assets/fulllogo.png">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="pangaleo">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" href="fulllogo.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="fulllogo.png">
 
   <title>pangaleo</title>
   <link rel="manifest" href="manifest.json">
@@ -126,13 +131,13 @@
     }
 
     .bootloader-logo {
-      width: 72px;
+      width: 180px;
       height: 72px;
-      border-radius: 18px;
+      border-radius: 12px;
       margin-bottom: 14px;
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
-      background: #fff;
-      object-fit: cover;
+      background: transparent;
+      object-fit: contain;
     }
 
     .bootloader-title {
@@ -210,7 +215,7 @@
 <body>
   <div id="bootloader" class="bootloader" aria-live="polite">
     <div class="bootloader-card">
-      <img class="bootloader-logo" src="icons/Icon-192.png" alt="PangaLeo">
+      <img class="bootloader-logo" src="fulllogo.png" alt="PangaLeo">
       <div class="bootloader-title">Initializing the web app</div>
       <div class="bootloader-sub">Please wait...</div>
       <div class="bootloader-progress">
