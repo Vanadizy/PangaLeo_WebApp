@@ -1,4 +1,6 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html>
+<html>
+<head>
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -30,31 +32,19 @@
   <title>pangaleo</title>
   <link rel="manifest" href="manifest.json">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvysziwKdjUg_pptN3YLLay68Wby9n9IY&libraries=places,marker"></script>
-  
-  
+
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   <style id="splash-screen-style">
     html {
-      height: 100%
+      height: 100%;
     }
 
     body {
       margin: 0;
       min-height: 100%;
       background-color: #ffffff;
-          background-size: 100% 100%;
+      background-size: 100% 100%;
     }
 
     .center {
@@ -67,19 +57,22 @@
     }
 
     .contain {
-      display:block;
-      width:100%; height:100%;
+      display: block;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
     }
 
     .stretch {
-      display:block;
-      width:100%; height:100%;
+      display: block;
+      width: 100%;
+      height: 100%;
     }
 
     .cover {
-      display:block;
-      width:100%; height:100%;
+      display: block;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
     }
 
@@ -103,10 +96,107 @@
       right: 0;
     }
 
+    .bootloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(circle at top, #f8f5f0 0%, #ffffff 45%, #f3f4f6 100%);
+      color: #111827;
+      font-family: "Sora", "Segoe UI", sans-serif;
+      transition: opacity 320ms ease;
+    }
+
+    .bootloader-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .bootloader-card {
+      width: min(360px, 100%);
+      padding: 24px 22px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 20px 60px rgba(17, 24, 39, 0.15);
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .bootloader-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+      background: #fff;
+      object-fit: cover;
+    }
+
+    .bootloader-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      margin-bottom: 6px;
+    }
+
+    .bootloader-sub {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 18px;
+    }
+
+    .bootloader-progress {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .bootloader-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #111827 0%, #10b981 100%);
+      transition: width 200ms ease;
+    }
+
+    .bootloader-percent {
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+    }
+
     @media (prefers-color-scheme: dark) {
       body {
         background-color: #121212;
-          }
+      }
+
+      .bootloader {
+        background: radial-gradient(circle at top, #1f2937 0%, #0f172a 45%, #020617 100%);
+        color: #f9fafb;
+      }
+
+      .bootloader-card {
+        background: rgba(17, 24, 39, 0.85);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      }
+
+      .bootloader-sub {
+        color: #cbd5f5;
+      }
+
+      .bootloader-progress {
+        background: rgba(148, 163, 184, 0.35);
+      }
+
+      .bootloader-percent {
+        color: #f8fafc;
+      }
     }
   </style>
   <script id="splash-screen-script">
@@ -118,16 +208,49 @@
   </script>
 </head>
 <body>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  <div id="bootloader" class="bootloader" aria-live="polite">
+    <div class="bootloader-card">
+      <img class="bootloader-logo" src="icons/Icon-192.png" alt="PangaLeo">
+      <div class="bootloader-title">Initializing the web app</div>
+      <div class="bootloader-sub">Please wait...</div>
+      <div class="bootloader-progress">
+        <div class="bootloader-bar" id="bootloader-bar"></div>
+      </div>
+      <div class="bootloader-percent" id="bootloader-percent">0%</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const loader = document.getElementById('bootloader');
+      const percentEl = document.getElementById('bootloader-percent');
+      const barEl = document.getElementById('bootloader-bar');
+      let value = 0;
+      let timer;
+
+      const tick = () => {
+        const delta = Math.random() * 6 + 1;
+        value = Math.min(90, value + delta);
+        const nextValue = Math.floor(value);
+        if (percentEl) percentEl.textContent = `${nextValue}%`;
+        if (barEl) barEl.style.width = `${nextValue}%`;
+        timer = window.setTimeout(tick, 140);
+      };
+
+      tick();
+
+      window.addEventListener('flutter-first-frame', () => {
+        if (timer) window.clearTimeout(timer);
+        if (percentEl) percentEl.textContent = '100%';
+        if (barEl) barEl.style.width = '100%';
+        if (loader) {
+          loader.classList.add('bootloader-hidden');
+          window.setTimeout(() => loader.remove(), 360);
+        }
+      });
+    })();
+  </script>
+
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader
@@ -136,7 +259,6 @@
     For more details:
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
-  <script src="flutter_bootstrap.js" async=""></script>
-
-
-</body></html>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
