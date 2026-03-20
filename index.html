@@ -36,7 +36,6 @@
 
   <title>pangaleo</title>
   <link rel="manifest" href="manifest.json">
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvysziwKdjUg_pptN3YLLay68Wby9n9IY&libraries=places,marker"></script>
 
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
 
@@ -211,6 +210,18 @@
       document.body.style.background = "transparent";
     }
   </script>
+  <meta name="google-maps-api-key" content="AIzaSyBvysziwKdjUg_pptN3YLLay68Wby9n9IY">
+  <script>
+    window.pangaleoConfig = {
+      googleMapsApiKey: 'AIzaSyBvysziwKdjUg_pptN3YLLay68Wby9n9IY'
+    };
+  </script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvysziwKdjUg_pptN3YLLay68Wby9n9IY&libraries=places,marker&loading=async"
+    data-pangaleo-google-maps="true"
+    async
+    defer
+  ></script>
 </head>
 <body>
   <div id="bootloader" class="bootloader" aria-live="polite">
