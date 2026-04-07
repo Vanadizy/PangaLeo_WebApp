@@ -11,6 +11,7 @@ firebase.initializeApp(self.firebaseConfig);
 const messaging = firebase.messaging();
 const defaultLink = self.location.origin;
 const iconUrl = `${self.location.origin}/icons/Icon-192.png`;
+const badgeUrl = `${self.location.origin}/icons/Icon-192.png`;
 
 function normalizePayload(payload) {
   const notification = payload.notification || {};
@@ -20,8 +21,8 @@ function normalizePayload(payload) {
     title: notification.title || data.title || 'PangaLeo',
     options: {
       body: notification.body || data.body || '',
-      icon: notification.icon || iconUrl,
-      badge: notification.badge || iconUrl,
+      icon: notification.icon || data.icon || iconUrl,
+      badge: notification.badge || data.badge || badgeUrl,
       data: {
         ...data,
         link: data.link || defaultLink,

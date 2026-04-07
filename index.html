@@ -266,6 +266,22 @@
       });
     })();
   </script>
+  <script>
+    window.addEventListener('load', async function () {
+      if (!('serviceWorker' in navigator) || !window.isSecureContext) {
+        return;
+      }
+
+      try {
+        await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+          scope: '/firebase-cloud-messaging-push-scope',
+        });
+        await navigator.serviceWorker.ready;
+      } catch (error) {
+        console.error('Failed to register Firebase messaging service worker.', error);
+      }
+    });
+  </script>
 
   <!--
     You can customize the "flutter_bootstrap.js" script.
