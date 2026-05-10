@@ -8,10 +8,16 @@ if (!self.firebaseConfig) {
 }
 
 firebase.initializeApp(self.firebaseConfig);
-const messaging = firebase.messaging();
 const defaultLink = self.location.origin;
 const iconUrl = `${self.location.origin}/icons/Icon-192.png`;
 const badgeUrl = `${self.location.origin}/icons/Icon-192.png`;
+let messaging = null;
+
+try {
+  messaging = firebase.messaging();
+} catch (error) {
+  console.warn('Firebase Messaging is not supported in this browser.', error);
+}
 
 function normalizePayload(payload) {
   const notification = payload.notification || {};
@@ -32,10 +38,12 @@ function normalizePayload(payload) {
   };
 }
 
-messaging.onBackgroundMessage((payload) => {
-  const { title, options } = normalizePayload(payload);
-  self.registration.showNotification(title, options);
-});
+if (messaging) {
+  messaging.onBackgroundMessage((payload) => {
+    const { title, options } = normalizePayload(payload);
+    self.registration.showNotification(title, options);
+  });
+}
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
